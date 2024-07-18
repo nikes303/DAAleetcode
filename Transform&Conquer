@@ -1,0 +1,60 @@
+A)Merge interval(Medium)
+Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping
+intervals that cover all the intervals in the input.
+
+class Solution:
+    def merge(self, intervals):
+        if not intervals:
+            return []
+        
+        # Sort intervals based on the start time
+        intervals.sort(key=lambda x: x[0])
+        merged_intervals = []
+        
+        for interval in intervals:
+            if not merged_intervals or interval[0] > merged_intervals[-1][1]:
+                merged_intervals.append(interval)
+            else:
+                # Merge with the last interval in merged_intervals
+                merged_intervals[-1][1] = max(merged_intervals[-1][1], interval[1])
+        
+        return merged_intervals
+OUTPUT:
+Input
+intervals =
+[[1,3],[2,6],[8,10],[15,18]]
+Output
+[[1,6],[8,10],[15,18]]
+Expected
+[[1,6],[8,10],[15,18]]
+
+B)Search a 2D MatrixII(Medium)
+Write an efficient algorithm that searches for a value target in an m x n integer matrix matrix. This matrix has the following properties:
+Integers in each row are sorted in ascending from left to right.
+Integers in each column are sorted in ascending from top to bottom.
+
+class Solution(object):
+    def searchMatrix(self, matrix, target):
+        if not matrix or not matrix[0]:
+            return False
+        
+        m, n = len(matrix), len(matrix[0])
+        row, col = 0, n - 1
+        
+        while row < m and col >= 0:
+            if matrix[row][col] == target:
+                return True
+            elif matrix[row][col] > target:
+                col -= 1
+            else:
+                row += 1
+        
+        return False
+OUTPUT:
+[[1,3,5,7],[10,11,16,20],[23,30,34,60]]
+target =
+3
+Output
+true
+Expected
+true
