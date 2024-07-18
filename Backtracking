@@ -1,0 +1,85 @@
+A)Combination sum(Medium)
+Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum 
+to target. You may return the combinations in any order.
+The same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the frequency of at least one of the chosen numbers 
+is different. The test cases are generated such that the number of unique combinations that sum up to target is less than 150 combinations for the given input.
+
+class Solution:
+    def combinationSum(self, candidates, target):
+        results = []
+        
+        def backtrack(start_index, target, current_combination):
+            if target == 0:
+                results.append(current_combination[:])
+                return
+            if target < 0:
+                return
+            
+            for i in range(start_index, len(candidates)):
+                current_combination.append(candidates[i])
+                backtrack(i, target - candidates[i], current_combination)
+                current_combination.pop()
+        
+        backtrack(0, target, [])
+        return results
+OUTPUT:
+Input
+candidates =
+[2,3,6,7]
+target =
+7
+Output
+[[2,2,3],[7]]
+Expected
+[[2,2,3],[7]]
+
+B)N-queens(Hard)
+The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.
+Given an integer n, return all distinct solutions to the n-queens puzzle. You may return the answer in any order.
+Each solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space, respectively.
+
+class Solution(object):
+    def solveNQueens(self, n):
+        def is_under_attack(row, col):
+            return (col in columns or
+                    (row - col) in diagonals or
+                    (row + col) in anti_diagonals)
+        
+        def place_queen(row, col):
+            columns.add(col)
+            diagonals.add(row - col)
+            anti_diagonals.add(row + col)
+            current_solution[row] = col
+        
+        def remove_queen(row, col):
+            columns.remove(col)
+            diagonals.remove(row - col)
+            anti_diagonals.remove(row + col)
+            current_solution[row] = -1
+        
+        def backtrack(row):
+            if row == n:
+                # Convert current_solution to the required format ["Q....", "...Q.", etc.]
+                result.append(["".join(["Q" if col == current_solution[row] else "." for col in range(n)]) for row in range(n)])
+                return
+            for col in range(n):
+                if not is_under_attack(row, col):
+                    place_queen(row, col)
+                    backtrack(row + 1)
+                    remove_queen(row, col)
+        
+        result = []
+        columns = set()
+        diagonals = set()
+        anti_diagonals = set()
+        current_solution = [-1] * n  # current_solution[row] = col of queen in that row
+        backtrack(0)
+        return result
+OUTPUT:
+Input
+n =
+4
+Output
+[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
+Expected
+[[".Q..","...Q","Q...","..Q."],["..Q.","Q...","...Q",".Q.."]]
