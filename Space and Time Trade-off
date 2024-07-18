@@ -1,0 +1,52 @@
+A)Number of students doing homework at a given time(Easy)
+Given two integer arrays startTime and endTime and given an integer queryTime.The ith student started doing their homework at the time startTime[i] and 
+finished it at time endTime[i].Return the number of students doing their homework at time queryTime. More formally, return the number ofstudents where queryTime
+lays in the interval [startTime[i], endTime[i]] inclusive.
+
+class Solution(object):
+    def busyStudent(self, startTime, endTime, queryTime):
+        count = 0
+        for start, end in zip(startTime, endTime):
+            if start <= queryTime <= end:
+                count += 1
+        return count
+OUTPUT:
+Input
+startTime =
+[1,2,3]
+endTime =
+[3,2,7]
+queryTime =
+4
+Output
+1
+Expected
+1
+
+B)Separate white and black balls(Medium)
+There are n balls on a table, each ball has a color black or white.
+You are given a 0-indexed binary string s of length n, where 1 and 0 represent black and white balls, respectively.
+In each step, you can choose two adjacent balls and swap them.
+Return the minimum number of steps to group all the black balls to the right and all the white balls to the left.
+
+long long minimumSteps(char* s) { int n = strlen(s);
+int* pos = (int*)malloc(n * sizeof(int)); int count = 0;
+for (int i = 0; i < n; i++) { if (s[i] == '1') {
+pos[count++] = i;
+}
+}
+long long swap = 0;
+int target_pos = n - count;
+for (int i = 0; i < count; i++) { swap += (target_pos + i - pos[i]);
+}
+free(pos); return swap;
+
+}
+OUTPUT:
+Input
+s =
+"101"
+Output
+1
+Expected
+1
